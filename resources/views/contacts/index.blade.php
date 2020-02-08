@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- TODO href de la balise <a> pour pointer vers la route de création de contact -->
-                <a class="btn btn-primary float-right" href="{{route('contact.create')}}">Ajouter un contact</a>
+                <a class="btn btn-primary float-right" href="{{route('contacts.create')}}">Ajouter un contact</a>
             </div>
         </div>
         <div class="row">
@@ -31,15 +31,14 @@
 
                         <td>
                             <!-- TODO href de la balise <a> pour pointer vers la route de modification du contact -->
-                            <a class="btn btn-primary" href="{{route('contact.modify')}}">Modifier</a>
+                            <a class="btn btn-primary" href="{{route('contacts.edit', $contact->id)}}">Modifier</a>
 
 
                             <a class="btn btn-danger" onclick="document.getElementById('delete-form-{{$contact->id}}').submit()">Supprimer</a>
-                            <form id="delete-form-{{$contact->id}}" method='post' action='{{route('contact.destroy')}}'>
+                            <form id="delete-form-{{$contact->id}}" method='post' action="{{route('contacts.destroy', $contact->id)}}">
                                 @csrf
                                 @method('delete')
                                 <!-- TODO Form pour la suppression d'un contact -->
-                                <input type='hidden' value='{{$contact->id}}' name='id'>
 
                             </form>
                         </td>

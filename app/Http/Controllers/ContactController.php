@@ -17,7 +17,7 @@ class ContactController extends Controller
         //
         $userId = auth()->user()->id;
         $contacts = Contact::where('user_id', $userId)->get();
-        return view ('contacts/index', array('contacts' => $contacts));
+        return view ('contacts.index', array('contacts' => $contacts));
     }
 
     /**
@@ -29,7 +29,7 @@ class ContactController extends Controller
     {
         //
 
-        return view ('contacts/create');
+        return view ('contacts.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class ContactController extends Controller
         $contact->user_id = auth()->user()->id;
         $contact->save();
 
-        return redirect()->route('contact.index');
+        return redirect()->route('contacts.index');
     }
 
     /**
@@ -78,7 +78,9 @@ class ContactController extends Controller
     public function edit(Contact $contact)
     {
         //
-        return view ('contacts/edit');
+        return view('contacts.edit',['contact' => $contact]);
+       
+
     }
 
     /**
@@ -91,6 +93,17 @@ class ContactController extends Controller
     public function update(Request $request, Contact $contact)
     {
         //
+        $validcontact = request()->validate([
+            'name' => 'required',
+            'tel' => 'required',
+            'email' => 'required'
+        ]);
+        
+        $contact->fill($validcontact);
+        $contact->save();
+
+        return redirect()->route('contacts.index');
+
     }
 
     /**
@@ -102,11 +115,9 @@ class ContactController extends Controller
     public function destroy(Contact $contact)
     {
         //
-       $id = $_POST['id'];
-       $contact = Contact::find($id);
        $contact->delete();
 
-       return redirect()->route('contact.index');
+       return redirect()->route('contacts.index');
 
     }
 }
